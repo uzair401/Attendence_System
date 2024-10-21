@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Take Attendance</h3>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="subjects.html">Attendance</a></li>
+          <li class="breadcrumb-item active">Take Attendance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  {% include "includes/messages.html" %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          {% if not action %}
+          <form action="?action=get_student" method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-12">
+                <h5 class="form-title"><span>Take Attendance</span></h5>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Subject</label>
+                  <select class="form-control" name="subject_id" required>
+                    <option>Subject</option>
+                    {% for i in subjects %}
+                    <option value="{{ i.id }}">{{ i.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Session Year</label>
+                  <select class="form-control" name="session_id" required>
+                    <option>Session Year</option>
+                    {% for i in session_years %}
+                    <option value="{{ i.id }}">{{ i.session_start }} - {{ i.session_end }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Show Students</button>
+              </div>
+            </div>
+          </form>
+          {% else %}
+          <form action="{% url 'staff_save_attendance' %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-12">
+                <h5 class="form-title"><span>Subject Information</span></h5>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Subject</label>
+                  <select class="form-control" name="subject_id" required>
+                    <option value="{{ get_subject.id }}">{{ get_subject.name }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Session Year</label>
+                  <select class="form-control" name="session_id" required>
+                    <option value="{{ get_session_year.id }}">{{ get_session_year.session_start }} - {{ get_session_year.session_end }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Attendance Date</label>
+                  <input type="date" class="form-control" name="attendance_date" required />
+                </div>
+              </div>
+              <div class="col-12">
+                <h5 class="form-title"><span>Students</span></h5>
+              </div>
+
+              {% for i in students %}
+              {% if forloop.counter0|divisibleby:2 %}
+              <div class="row w-100">
+              {% endif %}
+                <div class="col-6">
+                  <div class="form-group d-flex align-items-center">
+                    <label class="mr-2">{{ i.admin.first_name }} {{ i.admin.last_name }}</label>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="status_{{ i.id }}" id="present_{{ i.id }}" value="present" required>
+                      <label class="form-check-label btn btn-success ml-1 py-1 px-2" for="present_{{ i.id }}">Present</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="status_{{ i.id }}" id="absent_{{ i.id }}" value="absent" required>
+                      <label class="form-check-label btn btn-danger ml-1 py-1 px-2" for="absent_{{ i.id }}">Absent</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="status_{{ i.id }}" id="leave_{{ i.id }}" value="leave" required>
+                      <label class="form-check-label btn btn-warning ml-1 py-1 px-2" for="leave_{{ i.id }}">Leave</label>
+                    </div>
+                  </div>
+                </div>
+              {% if forloop.counter|divisibleby:2 or forloop.last %}
+              </div>
+              {% endif %}
+              {% endfor %}
+
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit Attendance</button>
+              </div>
+            </div>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

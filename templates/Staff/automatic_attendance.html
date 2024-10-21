@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Automatic Attendance</h3>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="subjects.html">Attendance</a></li>
+          <li class="breadcrumb-item active">Automatic Attendance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h4>Automatic Attendance</h4>
+          <form method="post" action="{% url 'process_attendance_video' %}">
+            {% csrf_token %}
+            <input type="hidden" name="subject_id" value="{{ subject_id }}">
+            <input type="hidden" name="session_id" value="{{ session_id }}">
+            <input type="hidden" name="attendance_date" value="{{ attendance_date }}">
+            <button type="submit" class="btn btn-success">Start Attendance</button>
+        </form>
+        
+
+          {% comment %} <form id="attendanceForm" method="post" action="">
+            {% csrf_token %}
+            <input type="hidden" name="subject_id" value="{{ subject_id }}">
+            <input type="hidden" name="session_id" value="{{ session_id }}">
+            <input type="hidden" name="present_students" id="present_students">
+            <button type="submit" class="btn btn-primary mt-3" id="submitBtn" style="display: none;">Submit Attendance</button>
+          </form> {% endcomment %}
+
+          <div id="camera" class="mt-3"></div>
+          <div id="results" class="mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Automatic Attendance</h3>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="">Attendance</a></li>
+          <li class="breadcrumb-item active">Automatic Attendance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h4>Automatic Attendance</h4>
+          
+          <!-- Start Attendance button -->
+          <button onclick="startAttendance()" class="btn btn-success">Start Attendance</button>
+          
+          <!-- Form to submit attendance -->
+          <form id="attendanceForm" method="post" action="{% url 'submit_automatic_attendance' %}">
+            {% csrf_token %}
+            <input type="hidden" name="subject_id" value="{{ subject_id }}">
+            <input type="hidden" name="session_id" value="{{ session_id }}">
+            <input type="hidden" name="attendance_date" value="{{ attendance_date }}">
+            <input type="hidden" name="present_students" id="present_students">
+            <button type="submit" class="btn btn-primary mt-3" id="submitBtn" style="display: none;">Submit Attendance</button>
+          </form>
+
+          <div id="camera" class="mt-3">
+            <!-- Video element for live camera feed -->
+            <video id="video" width="640" height="480" autoplay></video>
+          </div>
+          <div id="results" class="mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <script>
+  let video = document.getElementById('video');
+  let presentStudents = [];
+
+  async function startAttendance() {
+    try {
+      // Request access to the camera
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+      processVideoFeed();  // Start processing the video feed
+    } catch (err) {
+      console.error("An error occurred: " + err);
+    }
+  }
+
+  function processVideoFeed() {
+    setInterval(async function() {
+        let canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        let context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        let dataURL = canvas.toDataURL('image/png');
+        try {
+          const response = await fetch("{% url 'process_attendance_video' %}", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ image: dataURL })
+          });
+
+          const data = await response.json();
+          if (data.error) {
+            console.error("Error in face detection: ", data.error);
+          } else {
+            console.log("Faces detected: ", data.faces);
+            presentStudents = data.faces;
+            document.getElementById('present_students').value = presentStudents.join(',');
+            document.getElementById('submitBtn').style.display = 'block';
+          }
+        } catch (error) {
+          console.error('Error sending frame to server:', error);
+        }
+    }, 500);  // Capture frame every 500 ms
+  }
+</script> 
+{% endblock %} {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {% comment %} 
+
+
+  {% extends 'base.html' %}
+{% block content %}
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Automatic Attendance</h3>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="subjects.html">Attendance</a></li>
+          <li class="breadcrumb-item active">Automatic Attendance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h4>Automatic Attendance</h4>
+          <form method="post" action="{% url 'process_attendance_video' %}">
+            {% csrf_token %}
+            <input type="hidden" name="session_id" value="{{ session_id }}">
+            <button type="submit" class="btn btn-success">Start Attendance</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-area, #printable-area * {
+                visibility: visible;
+            }
+            #printable-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 210mm;
+                height: 297mm; /* A4 size */
+                margin: 0;
+            }
+        }
+    </style>
+
+    <div class="row">
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <p>Hello, I am {{ student.admin.first_name }} {{ student.admin.last_name }}. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-center">
+            {% if student.admin.profile_pic %}
+            <img src="{{ student.admin.profile_pic.url }}" class="img-fluid rounded-circle mb-3" alt="Profile Picture">
+            {% else %}
+            <img src="{% static 'images/default-profile.png' %}" class="img-fluid rounded-circle mb-3" alt="Profile Picture">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <h3>{{ student.admin.first_name }} {{ student.admin.last_name }}</h3>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Department:</strong> {{ student.course.name }}</li>
+                <li class="list-group-item"><strong>Mobile:</strong> {{ student.mobile_number }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ student.admin.email }}</li>
+                <li class="list-group-item"><strong>Gender:</strong> {{ student.gender }}</li>
+                <li class="list-group-item"><strong>DOB:</strong> {{ student.date_of_birth }}</li>
+                <li class="list-group-item"><strong>Address:</strong> {{ student.address }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="printable-area">
+        <div class="row">
+            <!-- Back Side -->
+            <div class="col-md-6 mb-4">
+                <div class="card bg-primary text-white" style="width: 300px; height: 480px; border-radius: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">AWKUM</h5>
+                        <hr class="bg-white">
+                        <div class="details-info text-center">
+                            <p><b>Department: </b>{{ student.course.name }}</p>
+                            <p><b>Gender: </b>{{ student.gender }}</p>
+                            <p><b>Date of Birth: </b>{{ student.date_of_birth }}</p>
+                        </div>
+                        <div class="text-center mt-4"></div>
+                        <hr class="bg-white">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Front Side -->
+            <div class="col-md-6">
+                <div class="card text-center" style="width: 300px; height: 480px; border-radius: 10px;">
+                    <div class="card-header bg-primary text-white" style="position: relative; padding-top: 80px;">
+                        <img src="{{ student.admin.profile_pic.url }}" class="rounded-circle mx-auto d-block" style="width: 150px; height: 150px; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background-color: #e6ebe0; border: 5px solid white;">
+                    </div>
+                    <div class="card-body" style="margin-top: 70px;">
+                        <h5 class="card-title">{{ student.admin.first_name }} {{ student.admin.last_name }}</h5>
+                        <p class="card-text text-muted">Student</p>
+                        <div class="text-center">
+                            <img style="width: 100px; height: 100px" src="data:image/png;base64,{{ qr_code }}" class="card-img-top" alt="QR Code">
+                        </div>
+                        <div class="details-info text-center">
+                            <p><b>Email: </b>{{ student.admin.email }}</p>
+                            <p><b>Mobile No: </b>{{ student.mobile_number }}</p>
+                            <p><b>Address: </b>{{ student.address }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <button onclick="printCard()" class="btn btn-primary">Download Student Card</button>
+        </div>
+    </div>
+
+    <script>
+        function printCard() {
+            window.print();
+        }
+    </script>
+
+    <div class="row mt-3">
+        <div class="col-md-4 mb-3">
+            <div class="card bg-dark text-white text-center">
+                <div class="card-body">
+                    <h3>Classes</h3>
+                    <p>4</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card bg-success text-white text-center">
+                <div class="card-body">
+                    <h3>Department</h3>
+                    <p>{{ student.course.name }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card bg-info text-white text-center">
+                <div class="card-body">
+                    <h3>Total Present</h3>
+                    <p>38</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

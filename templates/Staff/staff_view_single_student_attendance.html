@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">View Attendance</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">View Attendance</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <!-- Student Profile Section -->
+                <div class="profile-header">
+                    <div class="row align-items-center">
+                        <div class="col-auto profile-image">
+                            <a href="#">
+                                <img class="rounded-circle" alt="User Image" src="{{ student.admin.profile_pic.url }}">
+                            </a>
+                        </div>
+                        <div class="col ml-md-n2 profile-user-info">
+                            <h4 class="user-name mb-0">{{ student.admin.first_name }} {{ student.admin.last_name }}</h4>
+                            <h6 class="text-muted">{{ student.course.name }}</h6>
+                            <div class="user-location"><i class="fas fa-map-marker-alt"></i> {{ student.address }}</div>
+                            <div class="user-session-year">Session Year: {{ student.session_year.session_start }} - {{ student.session_year.session_end }}</div>
+                            <div class="user-subject">
+                                Subjects:
+                                {% comment %} <ul>
+                                    {% for subject in student.course.subject_set.all %}
+                                        <li>{{ subject.name }}</li>
+                                    {% endfor %}
+                                </ul> {% endcomment %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form to Select Month and Year -->
+                <form method="get" action="">
+                    {% csrf_token %}
+                    <div class="col-12 m-3">
+                        <h5 class="form-title"><span>Attendance Record</span></h5>
+                    </div>
+
+                    {% include "includes/messages.html" %}
+
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Month And Year</label>
+                                <input type="month" class="form-control" name="month" value="{{ request.GET.month }}" required />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Change Month</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Calendar Display -->
+                                      
+                                  <!-- Calendar Display -->
+                                  <!-- Calendar Display -->
+<div class="col-sm-12">
+    <div class="calendar">
+        {% for date in all_days_of_month %}
+        {% with record=attendance_records|get_item:date %}
+        <span style="
+            display: inline-block; 
+            width: 40px; 
+            height: 40px; 
+            background-color: {% if record %}{% if record == 'present' %}green{% elif record == 'absent' %}red{% elif record == 'leave' %}yellow{% endif %}{% else %}#ddd{% endif %}; 
+            color: {% if record %}white{% else %}black{% endif %}; 
+            text-align: center; 
+            line-height: 40px; 
+            border-radius: 5px; 
+            margin: 5px;
+            font-weight: bold;
+        ">
+            {{ date.day }}
+        </span>
+        {% endwith %}
+        {% endfor %}
+    </div>
+</div>
+
+
+
+                <!-- Attendance Percentage Record -->
+                <div class="col-12 m-7">
+                    <h5 class="form-title"><span>Attendance Percentage Record</span></h5>
+                </div>
+
+                <!-- Chart Container -->
+                <div class="col-sm-12">
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var ctx = document.getElementById('attendanceChart').getContext('2d');
+                        var attendanceChart = new Chart(ctx, {
+                            type: 'bar', // 'bar' or 'pie'
+                            data: {
+                                labels: ['Present', 'Absent', 'Leave'],
+                                datasets: [{
+                                    label: 'Attendance Record',
+                                    data: [{{ present_count }}, {{ absent_count }}, {{ leave_count }}],
+                                    backgroundColor: ['green', 'red', 'yellow'],
+                                    borderColor: ['green', 'red', 'yellow'],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+

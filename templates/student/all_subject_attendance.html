@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">All Subjects Attendance</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">All Subjects Attendance</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        {% for data in chart_data %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">{{ data.subject }}</h5>
+                <canvas id="chart-{{ forloop.counter }}"></canvas>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var ctx = document.getElementById('chart-{{ forloop.counter }}').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Present', 'Absent', 'Leave'],
+                        datasets: [{
+                            label: 'Attendance Percentage',
+                            data: [{{ data.present_percentage }}, {{ data.absent_percentage }}, {{ data.leave_percentage }}],
+                            backgroundColor: ['green', 'red', 'yellow'],
+                            borderColor: ['green', 'red', 'yellow'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value, index, values) {
+                                        return value + '%'; // Show percentage
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Attendance Options</h3>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="subjects.html">Attendance</a></li>
+          <li class="breadcrumb-item active">Attendance Options</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% include "includes/messages.html" %}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h4>Manual Attendance</h4>
+          <p>Click the button below to take attendance manually by selecting the status for each student.</p>
+          <a href="{% url 'staff_take_attendance' %}" class="btn btn-primary">Manual Attendance</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <h4>Automatic Attendance</h4>
+          <p>Click the button below to take attendance automatically using the camera and student face/QR code.</p>
+          <a href="{% url 'automatic_attendance_setup' %}" class="btn btn-success">Automatic Attendance</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

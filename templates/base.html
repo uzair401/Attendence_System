@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <title>Smart Attendance System</title>
+    <link rel="shortcut icon" href="{% static 'assets/img/faviicon.png' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700&display=swap' %}" /> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome/css/fontawesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome/css/all.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/plugins/datatables/datatables.min.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700&display=swap" rel="stylesheet">
+    <style>
+        .calendar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: start;
+            padding: 20px;
+        }
+        .calendar span {
+            cursor: pointer;
+        }
+        #attendanceChart {
+            width: 100% !important;
+            height: 400px !important;
+        }
+    </style>
+</head>
+<body>
+    {% include 'includes/header.html' %}
+    {% include 'includes/sidebar.html' %}
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/apexchart/apexcharts.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/apexchart/chart-data.js' %}"></script>
+    <script src="{% static 'assets/js/script.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>smart attendace system</title>
+      <link rel="shortcut icon" href="{% static 'assets/img/faviicon.png' %}"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="{% static 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&amp;display=swap' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/plugins/fontawesome/css/fontawesome.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/plugins/fontawesome/css/all.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+
+    <script src="{% static 'https://code.jquery.com/jquery-1.11.1.min.js' %}"></script>
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/plugins/datatables/datatables.min.css' %}"
+    />
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+    <style>
+      .calendar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        padding: 20px;
+    }
+    
+    .calendar span {
+        cursor: pointer;
+    }
+    #attendanceChart {
+      max-width: 100%;
+      height: auto;
+  }
+    </style>
+
+  </head>
+  <body>
+    {% load static %}
+
+    {% include 'includes/header.html' %}
+
+    {% include 'includes/sidebar.html' %}
+
+
+<div class="page-wrapper">
+   <div class="content container-fluid">
+    {% block content %}
+
+    {% endblock %}
+   {% comment %} {% include 'includes/footer.html' %} {% endcomment %}
+
+ {% comment %} </div>
+</div>
+    
+    <script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/apexchart/apexcharts.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/apexchart/chart-data.js' %}"></script>
+    <script src="{% static 'assets/js/script.js' %}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ 
+
+
+
+  </body>
+</html> {% endcomment %}

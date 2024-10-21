@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">View Attendance</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="subjects.html">Attendance</a></li>
+                    <li class="breadcrumb-item active">View Attendance</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/messages.html" %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    {% if not action %}
+                    <!-- Show Course and Session Year selection form -->
+                    <form action="?action=get_student" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="form-title"><span>View Attendance</span></h5>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Department</label>
+                                    <select class="form-control" name="course_id" required>
+                                        <option>Select Department</option>
+                                        {% for course in courses %}
+                                        <option value="{{ course.id }}">{{ course.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Session Year</label>
+                                    <select class="form-control" name="session_id" required>
+                                        <option>Select Session Year</option>
+                                        {% for session_year in session_years %}
+                                        <option value="{{ session_year.id }}">{{ session_year.session_start }} - {{ session_year.session_end }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Show Students</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% else %}
+                    <!-- Show Subject and Attendance Date selection form -->
+                    <form action="{% url 'view_all_student_attendance' %}?action=submit_attendance" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="form-title"><span>Subject Information</span></h5>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Department</label>
+                                    <input type="text" class="form-control" value="{{ selected_course.name }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Session Year</label>
+                                    <input type="text" class="form-control" value="{{ selected_session_year.session_start }} - {{ selected_session_year.session_end }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Subject</label>
+                                    <select class="form-control" name="subject_id" required>
+                                        <option>Select Subject</option>
+                                        {% for subject in subjects %}
+                                        <option value="{{ subject.id }}">{{ subject.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Date Of Attendance</label>
+                                    <select class="form-control" name="attendance_date" required>
+                                        <option>Select Date</option>
+                                        {% for attendance in attendance_dates %}
+                                        <option value="{{ attendance.attendance_date }}">{{ attendance.attendance_date }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">View Attendance</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+

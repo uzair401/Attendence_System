@@ -1,0 +1,65 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Automatic Attendance Setup</h3>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="subjects.html">Attendance</a></li>
+          <li class="breadcrumb-item active">Automatic Attendance Setup</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-12">
+                <h5 class="form-title"><span>Take Attendance</span></h5>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Subject</label>
+                  <select class="form-control" name="subject_id" required>
+                    <option value="">Select Subject</option>
+                    {% for i in subjects %}
+                    <option value="{{ i.id }}">{{ i.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Session Year</label>
+                  <select class="form-control" name="session_id" required>
+                    <option value="">Select Session Year</option>
+                    {% for i in session_years %}
+                    <option value="{{ i.id }}">{{ i.session_start }} - {{ i.session_end }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Select Date</label>
+                  <input type="date" class="form-control" name="attendance_date" required />
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Start Attendance</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
